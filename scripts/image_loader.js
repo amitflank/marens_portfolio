@@ -1,19 +1,53 @@
-// External JavaScript File: script.js
+document.addEventListener("DOMContentLoaded", async () => {
+    const imageContainer = document.getElementById("image-grid");
+    const previewModal = document.getElementById("fullscreen-preview");
+    const previewImage = document.getElementById("preview-image");
+    const closePreviewButton = document.getElementById("close-preview");
 
-const imageFolder = "pics"; // Folder name
-const imageList = [
-    "Aliens.jpg",
-    "girrafe_back.jpg",
-    "meerkat.jpg",
-    "squirell_back.jpg"
-]; // List of image filenames
+    // Load images dynamically (mock API call or local logic)
+    const images = [
+        "cheetah.jpg",
+        "dark elf.jpg",
+        "original.jpg",
+        "troll.jpg",
+        "desert runner.jpg",
+        "dishu.jpg",
+        "Dungeon Deserter render2.jpg",
+        "sphynx.jpg",
+        "panther.jpg",
+    ];
 
-const gridContainer = document.getElementById("image-grid");
 
-// Dynamically load images
-imageList.forEach(image => {
+
+// Dynamically add images to the grid container
+images.forEach(image => {
     const imgElement = document.createElement("img");
-    imgElement.src = `${imageFolder}/${image}`;
-    imgElement.alt = `Artwork - ${image}`;
-    gridContainer.appendChild(imgElement);
+    imgElement.src = `pics/${image}`;
+    imgElement.alt = `Artwork: ${image}`;
+    imgElement.classList.add("art-image");
+
+    // Add click event to open full-screen preview
+    imgElement.addEventListener("click", () => {
+        previewImage.src = imgElement.src; // Set the modal image source
+        previewModal.classList.remove("hidden");
+    });
+
+    imageContainer.appendChild(imgElement);
+});
+
+// Close the preview when the close button is clicked
+closePreviewButton.addEventListener("click", () => {
+    console.log("Close button clicked");
+    previewModal.classList.add("hidden");
+    previewImage.src = ""; // Clear image source
+});
+
+// Close the preview when clicking outside the image
+previewModal.addEventListener("click", (event) => {
+    if (event.target === previewModal) {
+        console.log("Clicked outside image");
+        previewModal.classList.add("hidden");
+        previewImage.src = ""; // Clear image source
+    }
+});
 });

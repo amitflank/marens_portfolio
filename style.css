@@ -1,56 +1,182 @@
+/* General Page Styling */
 body {
-    background-color: black;
-    color: white;
     font-family: Arial, sans-serif;
-    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.799);
+    color: #333;
 }
 
-#title {
+h1 {
     font-size: 2.5em;
-    background-image: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
-    -webkit-background-clip: text;
+    background-image: repeating-linear-gradient(135deg, rgb(0,0,0) 0px, rgb(0,0,0) 10px,transparent 10px, transparent 11px),repeating-linear-gradient(22.5deg, rgb(0,0,0) 0px, rgb(0,0,0) 10px,transparent 10px, transparent 11px),linear-gradient(90deg, hsl(194,74%,56%),hsl(266,74%,56%),hsl(338,74%,56%),hsl(50,74%,56%),hsl(122,74%,56%));    -webkit-background-clip: text;
     color: transparent;
     margin: 20px 0;
     transition: all 0.5s ease;
+    text-align: center;
 }
 
-#title:hover {
-    filter: invert(100%);
+h2 {
+    background-image: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+    background-size: 300% 100%; /* Make the gradient larger than the element to allow smooth animation */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    text-align: center;
+    margin: 20px 0;
+    font-size: 1.5rem;
+
+    transition: background-position 0.5s ease; /* Smooth transition when hover ends */
+}
+
+h2:hover {
+    animation: gradient-move 5s linear infinite; /* Smooth looping animation */
+}
+
+/* Keyframes for smooth gradient transition */
+@keyframes gradient-move {
+    0% {
+        background-position: 0% 50%; /* Start gradient */
+    }
+    100% {
+        background-position: 100% 50%; /* End gradient */
+    }
 }
 
 .carousel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 20px 0;
 }
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    padding: 0 50px; /* Adjust padding for better alignment */
-    overflow: hidden; /* Hides anything outside this container */
+    grid-template-columns: repeat(4, 1fr); /* 4 images per row */
+    gap: 20px; /* Spacing between images */
+    justify-content: center; /* Center the grid */
+    margin: 0 auto; /* Center the grid in its parent container */
+    max-width: 90%; /* Limit the grid width for large screens */
 }
 
-.grid-container img {
-    width: 100%;
-    transition: transform 0.5s ease;
-}
-
-.arrow {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2em;
+.art-image {
+    width: 100%; /* Make the images responsive */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Crop or fit images within their container */
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    user-select: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.art-image:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.4);
+}
+
+
+
+/* Arrow Buttons */
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 100;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
 }
 
 .arrow:hover {
-    color: grey;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
-.left, .right {
-    padding: 0 10px;
+.arrow.left {
+    left: 10px;
+}
+
+.arrow.right {
+    right: 10px;
+}
+
+/* Full-Screen Preview Styling */
+.hidden {
+    display: none;
+}
+
+#fullscreen-preview.hidden {
+    display: none !important;
+}
+
+#fullscreen-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#fullscreen-preview img {
+    max-width: 90%;
+    max-height: 90%;
+    border: 2px solid white;
+    box-shadow: 0px 8px 16px rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+}
+
+#close-preview {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 2rem;
+    border: none;
+    border-radius: 50%;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 1100;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#close-preview:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+    transform: scale(1.1);
+}
+
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 images per row on smaller screens */
+    }
+}
+
+
+@media (max-width: 480px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* 1 image per row */
+        max-width: 580px; /* Ensure consistent width */
+        margin: 20px auto; /* Center the grid horizontally */
+    }
+
+    .art-image {
+        max-width: 100%; /* Make images responsive for small screens */
+    }
+
+    #close-preview:hover {
+        background-color: rgba(0, 0, 0, 0.9);
+        transform: scale(1.05);
+    }
+    
 }
